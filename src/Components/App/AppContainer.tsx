@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-apollo";
 import { ThemeProvider } from "styled-components";
-import theme from "../../theme";
+import theme from "theme";
 import AppPresent from "./AppPresenter";
 import { IS_LOGGED_IN } from "./AppQueries";
 

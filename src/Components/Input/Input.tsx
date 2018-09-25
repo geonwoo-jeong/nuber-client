@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "../../typed-components";
+import styled from "typed-components";
 
 const Container = styled.input`
   border: none;

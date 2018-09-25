@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "../../typed-components";
+import styled from "typed-components";
 
 const Container = styled.div`
   transform: scale(0.8);

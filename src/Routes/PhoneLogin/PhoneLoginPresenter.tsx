@@ -1,9 +1,9 @@
+import BackArrow from "Components/BackArrow";
+import Input from "Components/Input";
+import countries from "countries";
 import React from "react";
 import Helmet from "react-helmet";
-import BackArrow from "Components/BackArrow";
-import Input from "../../Components/Input";
-import countries from "../../countries";
-import styled from "../../typed-components";
+import styled from "typed-components";
 
 const Container = styled.div`
   margin-top: 30px;

@@ -1,5 +1,5 @@
 import reset from "styled-reset";
-import { injectGlobal } from "./typed-components";
+import { injectGlobal } from "typed-components";
 
 // tslint:disable-next-line
 injectGlobal`
