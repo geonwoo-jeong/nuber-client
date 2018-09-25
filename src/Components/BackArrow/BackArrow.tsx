@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SFC } from "react";
 import { Link } from "react-router-dom";
 import styled from "typed-components";
 
@@ -11,7 +11,7 @@ interface IProps {
   className?: string;
 }
 
-const BackArrow: React.SFC<IProps> = ({ backTo, className }) => (
+const BackArrow: SFC<IProps> = ({ backTo, className }) => (
   <Container className={className}>
     <Link to={backTo}>
       <svg

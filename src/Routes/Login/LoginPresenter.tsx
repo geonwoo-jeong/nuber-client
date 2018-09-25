@@ -1,5 +1,5 @@
 import bgImage from "images/bg.png";
-import React from "react";
+import React, { SFC } from "react";
 import Helmet from "react-helmet";
 import { Link, RouteComponentProps } from "react-router-dom";
 import styled from "typed-components";
@@ -66,7 +66,7 @@ const SocialLink = styled.span`
 
 interface IProps extends RouteComponentProps<any> {}
 
-const LoginPresenter: React.SFC<IProps> = () => (
+const LoginPresenter: SFC<IProps> = () => (
   <Container>
     <Helmet>
       <title>Login | Uber</title>
