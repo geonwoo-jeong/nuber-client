@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { ChangeEventHandler, Component, FormEventHandler } from "react";
 import { RouteComponentProps } from "react-router";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
 
@@ -18,9 +18,29 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
       <PhoneLoginPresenter
         countryCode={countryCode}
         phoneNumber={phoneNumber}
+        onInputChange={this.onInputChange}
+        onSubmit={this.onSubmit}
       />
     );
   }
+
+  public onInputChange: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = event => {
+    const {
+      target: { name, value }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
+  };
+
+  public onSubmit: FormEventHandler<HTMLFormElement> = event => {
+    event.preventDefault();
+    const { countryCode, phoneNumber } = this.state;
+    // tslint:disable-next-line
+    console.log(countryCode, phoneNumber);
+  };
 }
 
 export default PhoneLoginContainer;
