@@ -50,6 +50,7 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
               phoneNumber={phoneNumber}
               onInputChange={this.onInputChange}
               onSubmit={onSubmit}
+              loading={loading}
             />
           );
         }}
