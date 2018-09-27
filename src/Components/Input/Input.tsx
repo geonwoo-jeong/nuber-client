@@ -29,6 +29,7 @@ interface IProps {
   name: string;
   onChange: any;
   value: any;
+  className?: string;
 }
 
 const Input: SFC<IProps> = ({
@@ -37,7 +38,8 @@ const Input: SFC<IProps> = ({
   required = true,
   name = "",
   onChange,
-  value
+  value,
+  className
 }) => (
   <Container
     type={type}
@@ -46,6 +48,7 @@ const Input: SFC<IProps> = ({
     value={value}
     placeholder={placeholder}
     onChange={onChange}
+    className={className}
   />
 );
 
