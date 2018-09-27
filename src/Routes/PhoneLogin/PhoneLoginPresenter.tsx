@@ -54,10 +54,6 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Svg = styled.svg`
-
-`
-
 interface IProps {
   countryCode: string;
   phoneNumber: string;
