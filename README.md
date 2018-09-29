@@ -6,7 +6,7 @@ Client for the (N)uber CLone. ReactJS, Apollo, Typescript
 
 ### Logged Out:
 
-- [ ] Home
+- [x] Home
 - [ ] Phone Login
 - [ ] Verify Phone Number
 - [ ] Social Login
