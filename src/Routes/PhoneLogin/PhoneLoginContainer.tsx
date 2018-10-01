@@ -31,9 +31,18 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
         mutation={PHONE_SIGN_IN}
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
         onCompleted={data => {
+          const phone = `${countryCode}${phoneNumber}`;
           const { StartPhoneVerification } = data;
           if (StartPhoneVerification.ok) {
-            return;
+            toast.success("SMS Sent! Redirecting you...");
+            setTimeout(() => {
+              history.push({
+                pathname: "/verify-phone",
+                state: {
+                  phone
+                }
+              });
+            }, 2000);
           } else {
             toast.error(StartPhoneVerification.error);
           }
@@ -45,13 +54,7 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
             const phone = `${countryCode}${phoneNumber}`;
             const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(phone);
             if (isValid) {
-              // mutation();
-              history.push({
-                pathname: "/verify-phone",
-                state: {
-                  phone
-                }
-              });
+              mutation();
             } else {
               toast.error("Please write a valid phone number");
             }
