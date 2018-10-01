@@ -27,6 +27,8 @@ class VerifyPhoneContainer extends Component<IProps, IState> {
     const { key } = this.state;
     return (
       <VerifyMutation mutation={VERIFY_PHONE} variables={}>
+        {" "}
+        6:30
         <VerifyPhonePresenter onChange={this.onInputChange} key={key} />
       </VerifyMutation>
     );
