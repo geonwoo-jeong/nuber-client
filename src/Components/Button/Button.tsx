@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import styled from "typed-components";
 
@@ -30,5 +31,11 @@ interface IProps {
 const Button: SFC<IProps> = ({ value, onClick, disabled = false }) => (
   <Container value={value} disabled={false} onClick={onClick} type={"submit"} />
 );
+
+Button.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
+};
 
 export default Button;

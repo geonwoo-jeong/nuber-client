@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import styled from "typed-components";
 
@@ -51,5 +52,15 @@ const Input: SFC<IProps> = ({
     className={className}
   />
 );
+
+Input.propTypes = {
+  className: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  required: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired
+};
 
 export default Input;
