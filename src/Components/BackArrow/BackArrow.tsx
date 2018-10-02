@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { SFC } from "react";
 import { Link } from "react-router-dom";
 import styled from "typed-components";
@@ -26,5 +27,14 @@ const BackArrow: SFC<IProps> = ({ backTo, className }) => (
     </Link>
   </Container>
 );
+
+BackArrow.defaultProps = {
+  className: ""
+};
+
+BackArrow.propTypes = {
+  backTo: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired
+};
 
 export default BackArrow;

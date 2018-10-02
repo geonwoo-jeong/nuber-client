@@ -18,6 +18,10 @@ const Form: SFC<IProps> = ({ submitFn, className, children }) => (
   </form>
 );
 
+Form.defaultProps = {
+  className: ""
+};
+
 Form.propTypes = {
   className: PropTypes.string.isRequired,
   submitFn: PropTypes.func.isRequired

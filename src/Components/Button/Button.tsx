@@ -29,12 +29,22 @@ interface IProps {
 }
 
 const Button: SFC<IProps> = ({ value, onClick, disabled = false }) => (
-  <Container value={value} disabled={false} onClick={onClick} type={"submit"} />
+  <Container
+    value={value}
+    disabled={disabled}
+    onClick={onClick}
+    type={"submit"}
+  />
 );
+
+Button.defaultProps = {
+  disabled: false,
+  value: ""
+};
 
 Button.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.any,
   value: PropTypes.string.isRequired
 };
 

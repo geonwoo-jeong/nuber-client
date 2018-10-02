@@ -34,13 +34,13 @@ interface IProps {
 }
 
 const Input: SFC<IProps> = ({
+  className = "",
   placeholder = "",
   type = "text",
   required = true,
   name = "",
   onChange,
-  value,
-  className
+  value
 }) => (
   <Container
     type={type}
@@ -52,6 +52,12 @@ const Input: SFC<IProps> = ({
     className={className}
   />
 );
+
+Input.defaultProps = {
+  className: "",
+  required: true,
+  type: "text"
+};
 
 Input.propTypes = {
   className: PropTypes.string.isRequired,
