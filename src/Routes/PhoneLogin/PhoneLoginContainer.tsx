@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, Component, FormEventHandler } from "react";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import {
@@ -19,6 +19,7 @@ class PhoneSignInMutation extends Mutation<
 > {}
 
 class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
+  public phoneMutation: MutationFn;
   public state = {
     countryCode: "+81",
     phoneNumber: ""
@@ -48,23 +49,14 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
           }
         }}
       >
-        {(mutation, { loading }) => {
-          const onSubmit: FormEventHandler<HTMLFormElement> = event => {
-            event.preventDefault();
-            const phone = `${countryCode}${phoneNumber}`;
-            const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(phone);
-            if (isValid) {
-              mutation();
-            } else {
-              toast.error("Please write a valid phone number");
-            }
-          };
+        {(phoneMutation, { loading }) => {
+          this.phoneMutation = phoneMutation;
           return (
             <PhoneLoginPresenter
               countryCode={countryCode}
               phoneNumber={phoneNumber}
               onInputChange={this.onInputChange}
-              onSubmit={onSubmit}
+              onSubmit={this.onSubmit}
               loading={loading}
             />
           );
@@ -72,6 +64,18 @@ class PhoneLoginContainer extends Component<RouteComponentProps<any>, IState> {
       </PhoneSignInMutation>
     );
   }
+
+  public onSubmit: FormEventHandler<HTMLFormElement> = event => {
+    event.preventDefault();
+    const { countryCode, phoneNumber } = this.state;
+    const phone = `${countryCode}${phoneNumber}`;
+    const isValid = /^\+[1-9]{1}[0-9]{7-11}$/.test(phone);
+    if (isValid) {
+      this.phoneMutation();
+    } else {
+      toast.error("Please write a valid phone number");
+    }
+  };
 
   public onInputChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
