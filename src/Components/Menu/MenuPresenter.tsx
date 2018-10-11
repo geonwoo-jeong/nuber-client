@@ -95,12 +95,7 @@ const MenuPresenter: SFC<IProps> = ({
           <Header>
             <Grid>
               <Link to={"/edit-account"}>
-                <Image
-                  src={
-                    user.profilePhoto ||
-                    "https://vignette.wikia.nocookie.net/roblox-phantom-forces/images/7/7c/Noimage.png/revision/latest?cb=20171115203949"
-                  }
-                />
+                <Image src={user.profilePhoto || "no-profile-image.png"} />
               </Link>
               <Text>
                 <Name>{user.fullName}</Name>
