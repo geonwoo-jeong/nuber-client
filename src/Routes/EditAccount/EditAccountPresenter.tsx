@@ -2,6 +2,7 @@ import Button from "Components/Button";
 import Form from "Components/Form";
 import Header from "Components/Header";
 import Input from "Components/Input";
+import PhotoInput from "Components/PhotoInput";
 import PropTypes from "prop-types";
 import React, { ChangeEvent, SFC } from "react";
 import { MutationFn } from "react-apollo";
@@ -27,6 +28,7 @@ interface IProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
   onSubmit: MutationFn<updateProfile>;
+  uploading: boolean;
 }
 
 const EditAccountPresenter: SFC<IProps> = ({
@@ -36,7 +38,8 @@ const EditAccountPresenter: SFC<IProps> = ({
   profilePhoto = "no-profile-image.png",
   onInputChange,
   loading = true,
-  onSubmit
+  onSubmit,
+  uploading
 }) => (
   <Container>
     <Helmet>
@@ -44,6 +47,11 @@ const EditAccountPresenter: SFC<IProps> = ({
     </Helmet>
     <Header title={"Edit Account"} backTo={"/"} />
     <ExtendedForm submitFn={onSubmit}>
+      <PhotoInput
+        uploading={uploading}
+        fileUrl={profilePhoto}
+        onChange={onInputChange}
+      />
       <ExtendedInput
         onChange={onInputChange}
         type={"text"}
@@ -75,7 +83,8 @@ EditAccountPresenter.defaultProps = {
   firstName: "",
   lastName: "",
   loading: true,
-  profilePhoto: "no-profile-image.png"
+  profilePhoto: "no-profile-image.png",
+  uploading: false
 };
 
 EditAccountPresenter.propTypes = {
@@ -85,7 +94,8 @@ EditAccountPresenter.propTypes = {
   loading: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.any.isRequired,
-  profilePhoto: PropTypes.string.isRequired
+  profilePhoto: PropTypes.string.isRequired,
+  uploading: PropTypes.bool.isRequired
 };
 
 export default EditAccountPresenter;
