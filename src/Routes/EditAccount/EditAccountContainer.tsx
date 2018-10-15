@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler, Component } from "react";
 import { Mutation, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router-dom";
+import { toast } from "react-toastify";
 import { USER_PROFILE } from "sharedQueries.queries";
 import { updateProfile, updateProfileVariables, userProfile } from "types/api";
 import EditAccountPresenter from "./EditAccountPresenter";
@@ -36,6 +37,15 @@ class EditAccountContainer extends Component<IProps, IState> {
         {() => (
           <UpdateProfileMutation
             mutation={UPDATE_PROFILE}
+            refetchQueries={[{ query: USER_PROFILE }]}
+            onCompleted={data => {
+              const { UpdateMyProfile } = data;
+              if (UpdateMyProfile.ok) {
+                toast.success("Profile updated!");
+              } else if (UpdateMyProfile.error) {
+                toast.error(UpdateMyProfile.error);
+              }
+            }}
             variables={{
               email,
               firstName,
