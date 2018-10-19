@@ -51,9 +51,13 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "GetMyPlaceResponse",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "GetMyPlacesResponse",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1363,7 +1367,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetMyPlaceResponse",
+        "name": "GetMyPlacesResponse",
         "description": "",
         "fields": [
           {
