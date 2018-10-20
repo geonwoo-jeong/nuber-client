@@ -16,7 +16,7 @@ Client for the (N)uber CLone. ReactJS, Apollo, Typescript
 - [x] Home
 - [ ] Ride
 - [ ] Edit Account
-- [ ] Settings
+- [x] Settings
 - [ ] Add Place
 - [ ] Find Address
 - [ ] Ride History
