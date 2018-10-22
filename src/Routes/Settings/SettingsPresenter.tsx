@@ -82,10 +82,10 @@ const SettingsPresenter: SFC<IProps> = ({
         (places &&
           places.map(place => (
             <Place
-              key={place.id}
-              fav={place.isFav}
-              name={place.name}
-              address={place.address}
+              key={place!.id}
+              fav={place!.isFav}
+              name={place!.name}
+              address={place!.address}
             />
           )))}
       <SLink to={"/places"}>Go to Places</SLink>
