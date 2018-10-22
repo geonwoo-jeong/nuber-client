@@ -3,28 +3,40 @@ import Form from "Components/Form";
 import Header from "Components/Header";
 import Input from "Components/Input";
 import React, { ChangeEvent, SFC } from "react";
+import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "typed-components";
+import { addPlace } from "types/api";
 
-const ExtendedLink = styled(Link)``;
+const Container = styled.div`
+  padding: 0 40px;
+`;
 
-const ExtendedInput = styled(Input)``;
+const ExtendedLink = styled(Link)`
+  text-decoration: underline;
+  margin-bottom: 20px;
+  display: block;
+`;
 
-const Container = styled.div``;
+const ExtendedInput = styled(Input)`
+  margin-bottom: 40px;
+`;
 
 interface IProps {
   address: string;
   name: string;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
+  onSubmit: MutationFn<addPlace>;
 }
 
 const AddPlacePresenter: SFC<IProps> = ({
   address,
   name,
   onInputChange,
-  loading
+  loading,
+  onSubmit
 }) => (
   <>
     <Helmet>
@@ -32,7 +44,7 @@ const AddPlacePresenter: SFC<IProps> = ({
     </Helmet>
     <Header title={"Add Place"} backTo={"/"} />
     <Container>
-      <Form submitFn={null}>
+      <Form submitFn={onSubmit}>
         <ExtendedInput
           placeholder={"Name"}
           type={"text"}

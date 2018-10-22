@@ -29,11 +29,7 @@ const PlacesPresenter: SFC<IProps> = ({
     </Helmet>
     <Header title={"Places"} backTo={"/"} />
     <Container>
-      {!loading &&
-        places &&
-        places.length === 0 && (
-          <SLink to={"/add-place"}>Place add some places!</SLink>
-        )}
+      {!loading && places && places.length === 0 && "You have no places"}
       {!loading &&
         places &&
         places.map(place => (
@@ -44,6 +40,7 @@ const PlacesPresenter: SFC<IProps> = ({
             address={place!.address}
           />
         ))}
+      <SLink to={"/add-place"}>add some places!</SLink>
     </Container>
   </>
 );

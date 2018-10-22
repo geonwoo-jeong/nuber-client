@@ -35,7 +35,7 @@ interface IProps {
 
 const PlacePresenter: SFC<IProps> = ({ address, fav, name }) => (
   <Place>
-    <Icon>{fav ? "✩" : "★"}</Icon>
+    <Icon>{fav ? "★" : "✩"}</Icon>
     <Container>
       <Name>{name}</Name>
       <Address>{address}</Address>
