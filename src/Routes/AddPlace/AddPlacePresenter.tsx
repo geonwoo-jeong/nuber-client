@@ -42,7 +42,7 @@ const AddPlacePresenter: SFC<IProps> = ({
     <Helmet>
       <title>Add Place | Uber</title>
     </Helmet>
-    <Header title={"Add Place"} backTo={"/"} />
+    <Header title={"Add Place"} backTo={"/places"} />
     <Container>
       <Form submitFn={onSubmit}>
         <ExtendedInput

@@ -1,4 +1,5 @@
 import React, { SFC } from "react";
+import { MutationFn } from "react-apollo";
 import styled from "typed-components";
 
 const Place = styled.div`
@@ -31,11 +32,12 @@ interface IProps {
   address: string;
   fav: boolean;
   name: string;
+  onStarPress: MutationFn;
 }
 
-const PlacePresenter: SFC<IProps> = ({ address, fav, name }) => (
+const PlacePresenter: SFC<IProps> = ({ address, onStarPress, fav, name }) => (
   <Place>
-    <Icon>{fav ? "★" : "✩"}</Icon>
+    <Icon onClick={onStarPress as any}>{fav ? "★" : "✩"}</Icon>
     <Container>
       <Name>{name}</Name>
       <Address>{address}</Address>

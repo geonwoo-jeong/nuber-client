@@ -27,7 +27,7 @@ const PlacesPresenter: SFC<IProps> = ({
     <Helmet>
       <title>Places | Uber</title>
     </Helmet>
-    <Header title={"Places"} backTo={"/"} />
+    <Header title={"Places"} backTo={"/settings"} />
     <Container>
       {!loading && places && places.length === 0 && "You have no places"}
       {!loading &&
@@ -35,6 +35,7 @@ const PlacesPresenter: SFC<IProps> = ({
         places.map(place => (
           <Place
             key={place!.id}
+            id={place!.id}
             fav={place!.isFav}
             name={place!.name}
             address={place!.address}
