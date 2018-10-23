@@ -29,6 +29,7 @@ interface IProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
   onSubmit: MutationFn<addPlace>;
+  pickedAddress: boolean;
 }
 
 const AddPlacePresenter: SFC<IProps> = ({
@@ -36,7 +37,8 @@ const AddPlacePresenter: SFC<IProps> = ({
   name,
   onInputChange,
   loading,
-  onSubmit
+  onSubmit,
+  pickedAddress
 }) => (
   <>
     <Helmet>
@@ -60,7 +62,12 @@ const AddPlacePresenter: SFC<IProps> = ({
           name={"address"}
         />
         <ExtendedLink to={"/find-address"}>Pick place from map</ExtendedLink>
-        <Button onClick={null} value={loading ? "Adding place" : "Add Place"} />
+        {pickedAddress && (
+          <Button
+            onClick={null}
+            value={loading ? "Adding place" : "Add Place"}
+          />
+        )}
       </Form>
     </Container>
   </>
