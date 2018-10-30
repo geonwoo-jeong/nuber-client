@@ -74,6 +74,7 @@
     "@types/react": "^16.4.9",
     "@types/react-dom": "^16.0.7",
     "@types/react-facebook-login": "^3.6.5",
+    "@types/react-helmet": "^5.0.7",
     "@types/react-sidebar": "^3.0.0",
     "typescript": "^3.0.1"
   },
