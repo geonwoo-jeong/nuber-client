@@ -66,6 +66,7 @@ class FindAddressContainer extends Component<IProps, IState> {
         lng
       },
       disableDefaultUI: true,
+      minZoom: 8,
       zoom: 14
     };
     this.map = new maps.Map(mapNode, mapConfig);
@@ -89,9 +90,19 @@ class FindAddressContainer extends Component<IProps, IState> {
       [name]: value
     } as any);
   };
-  public onInputBlur = () => {
+  public onInputBlur = async () => {
     const { address } = this.state;
-    geoCode(address);
+    const result = await geoCode(address);
+    if (result !== false) {
+      const { lat, lng, formatted_address: formattedAddress } = result;
+      this.setState({
+        address: formattedAddress,
+        lat,
+        lng
+      });
+      const latLng = new google.maps.LatLng(lat, lng);
+      this.map.panTo(latLng);
+    }
   };
   public reverseGeocodeAddress = async (lat: number, lng: number) => {
     const reversedAddress = await reverseGeoCode(lat, lng);
