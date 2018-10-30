@@ -70,11 +70,16 @@ class FindAddressContainer extends Component<IProps, IState> {
     this.map = new maps.Map(mapNode, mapConfig);
     this.map.addListener("dragend", this.handleDragEnd);
   };
-  public handleDragEnd = () => {
+  public handleDragEnd = async () => {
     const newCenter = this.map.getCenter();
     const lat = newCenter.lat();
     const lng = newCenter.lng();
-    reverseGeoCode(lat, lng);
+    const reversedAddress = await reverseGeoCode(lat, lng);
+    this.setState({
+      address: reversedAddress,
+      lat,
+      lng
+    });
   };
   public onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
