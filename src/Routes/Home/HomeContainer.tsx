@@ -32,9 +32,16 @@ class HomeContainer extends Component<IProps, IState> {
     this.mapRef = React.createRef();
   }
   public componentDidMount() {
+    const getCurrentOptions: PositionOptions = {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 5000
+    };
+
     navigator.geolocation.getCurrentPosition(
       this.handleGeoSuccess,
-      this.handleGeoError
+      this.handleGeoError,
+      getCurrentOptions
     );
   }
   public render() {
