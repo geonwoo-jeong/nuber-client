@@ -1,11 +1,13 @@
+import AddressBar from "Components/AddressBar";
+import Button from "Components/Button";
 import Menu from "Components/Menu";
 import PropTypes from "prop-types";
-import React, { SFC } from "react";
+import React, { ChangeEvent, SFC } from "react";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "typed-components";
 
-const Button = styled.button`
+const MenuButton = styled.button`
   appearance: none;
   padding: 10px;
   position: absolute;
@@ -21,6 +23,17 @@ const Button = styled.button`
   background-color: transparent;
 `;
 
+const ExtendedButton = styled(Button)`
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+  height: auto;
+  width: 80%;
+`;
+
 const Map = styled.div`
   position: absolute;
   height: 100%;
@@ -32,6 +45,9 @@ interface IProps {
   toggleMenu: () => void;
   loading: boolean;
   mapRef: any;
+  toAddress: string;
+  onAddressSubmit: () => void;
+  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Container = styled.div``;
@@ -40,7 +56,10 @@ const HomePresenter: SFC<IProps> = ({
   isMenuOpen,
   toggleMenu,
   loading,
-  mapRef
+  mapRef,
+  toAddress,
+  onAddressSubmit,
+  onInputChange
 }) => (
   <Container>
     <Helmet>
@@ -58,7 +77,18 @@ const HomePresenter: SFC<IProps> = ({
         }
       }}
     >
-      {!loading && <Button onClick={toggleMenu}>|||</Button>}
+      {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
+      <AddressBar
+        name={"toAddress"}
+        onChange={onInputChange}
+        value={toAddress}
+        onBlur={null}
+      />
+      <ExtendedButton
+        onClick={onAddressSubmit}
+        disabled={toAddress === ""}
+        value={"Pick Address"}
+      />
       <Map innerRef={mapRef} />
     </Sidebar>
   </Container>
@@ -68,6 +98,9 @@ HomePresenter.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   mapRef: PropTypes.any.isRequired,
+  onAddressSubmit: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  toAddress: PropTypes.string.isRequired,
   toggleMenu: PropTypes.func.isRequired
 };
 
