@@ -32,7 +32,7 @@ class HomeContainer extends Component<IProps, IState> {
     this.mapRef = React.createRef();
   }
   public componentDidMount() {
-    navigator.geolocation.watchPosition(
+    navigator.geolocation.getCurrentPosition(
       this.handleGeoSuccess,
       this.handleGeoError
     );
@@ -59,7 +59,7 @@ class HomeContainer extends Component<IProps, IState> {
       };
     });
   };
-  public handleGeoSuccess: PositionCallback = (position: Position) => {
+  public handleGeoSuccess = (position: Position) => {
     const {
       coords: { latitude, longitude }
     } = position;
@@ -67,13 +67,17 @@ class HomeContainer extends Component<IProps, IState> {
       lat: latitude,
       lng: longitude
     });
-    this.loadMap(latitude, longitude);
+    const latLng = new google.maps.LatLng(latitude, longitude);
+    this.loadMap(latLng);
   };
-  public loadMap = (lat, lng) => {
+  public loadMap = latLng => {
     const { google } = this.props;
     const maps = google.maps;
     const mapNode = ReactDOM.findDOMNode(this.mapRef.current);
-    const latLng = new google.maps.LatLng(lat, lng);
+    if (!mapNode) {
+      this.loadMap(latLng);
+      return;
+    }
     const mapConfig: google.maps.MapOptions = {
       center: latLng,
       disableDefaultUI: true,
@@ -94,14 +98,18 @@ class HomeContainer extends Component<IProps, IState> {
       enableHighAccuracy: true
     };
     navigator.geolocation.watchPosition(
-      this.handleGeoSuccess,
+      this.handleGeoWatchSuccess,
       this.handleGeoWatchError,
       watchOptions
     );
   };
   public handleGeoWatchSuccess = (position: Position) => {
-    console.log("success");
-    console.log(position);
+    const {
+      coords: { latitude, longitude }
+    } = position;
+    const latLng = new google.maps.LatLng(latitude, longitude);
+    this.userMarker.setPosition(latLng);
+    this.map.panTo(latLng);
   };
   public handleGeoWatchError = () => {
     console.log("some err");
