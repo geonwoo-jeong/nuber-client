@@ -34,6 +34,10 @@ const ExtendedButton = styled(Button)`
   width: 80%;
 `;
 
+const RequestButton = styled(ExtendedButton)`
+  bottom: 100px;
+`;
+
 const Map = styled.div`
   position: absolute;
   height: 100%;
@@ -46,6 +50,7 @@ interface IProps {
   loading: boolean;
   mapRef: any;
   toAddress: string;
+  price: string;
   onAddressSubmit: () => void;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -57,6 +62,7 @@ const HomePresenter: SFC<IProps> = ({
   toggleMenu,
   loading,
   mapRef,
+  price,
   toAddress,
   onAddressSubmit,
   onInputChange
@@ -84,10 +90,17 @@ const HomePresenter: SFC<IProps> = ({
         value={toAddress}
         onBlur={null}
       />
-      <ExtendedButton
+      {price && (
+        <ExtendedButton
+          onClick={onAddressSubmit}
+          disabled={toAddress === ""}
+          value={`Request Ride $${price}`}
+        />
+      )}
+      <RequestButton
         onClick={onAddressSubmit}
         disabled={toAddress === ""}
-        value={"Pick Address"}
+        value={price ? "Change Address" : "Pick Address"}
       />
       <Map innerRef={mapRef} />
     </Sidebar>
@@ -100,6 +113,7 @@ HomePresenter.propTypes = {
   mapRef: PropTypes.any.isRequired,
   onAddressSubmit: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  price: PropTypes.string.isRequired,
   toAddress: PropTypes.string.isRequired,
   toggleMenu: PropTypes.func.isRequired
 };
