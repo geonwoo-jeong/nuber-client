@@ -3,6 +3,7 @@ import React, { ChangeEvent, Component } from "react";
 import { Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router";
+import { toast } from "react-toastify";
 import { USER_PROFILE } from "sharedQueries.queries";
 import { userProfile } from "types/api";
 import HomePresenter from "./HomePresenter";
@@ -14,6 +15,9 @@ interface IState {
   toLng: number;
   lat: number;
   lng: number;
+  distance?: string;
+  duration?: string;
+  price?: number;
 }
 
 interface IProps extends RouteComponentProps<any> {
@@ -186,7 +190,34 @@ class HomeContainer extends Component<IProps, IState> {
       },
       suppressMarkers: true
     };
-    const directionService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    this.directions = new google.maps.DirectionsRenderer(renderOptions);
+    const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    const origin = new google.maps.LatLng(lat, lng);
+    const destination = new google.maps.LatLng(toLat, toLng);
+    const directionsOptions: google.maps.DirectionsRequest = {
+      destination,
+      origin,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(directionsOptions, this.handleDirectionsService);
+  };
+
+  public handleDirectionsService = (result, status) => {
+    if (status === google.maps.DirectionsStatus.OK) {
+      const { routes } = result;
+      const {
+        distance: { text: distance },
+        duration: { text: duration }
+      } = routes[0].legs[0];
+      this.setState({
+        distance,
+        duration
+      });
+      this.directions.setDirections(result);
+      this.directions.setMap(this.map);
+    } else {
+      toast.error("There is no route there, you have to swim.");
+    }
   };
 }
 
