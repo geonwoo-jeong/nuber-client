@@ -1,12 +1,17 @@
 import { geoCode } from "mapHelper";
 import React, { ChangeEvent, Component } from "react";
-import { Query } from "react-apollo";
+import { graphql, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { USER_PROFILE } from "sharedQueries.queries";
-import { userProfile } from "types/api";
+import {
+  reportMovement,
+  reportMovementVariables,
+  userProfile
+} from "types/api";
 import HomePresenter from "./HomePresenter";
+import { REPORT_LOCATION } from "./HomeQueries.queries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -22,6 +27,7 @@ interface IState {
 
 interface IProps extends RouteComponentProps<any> {
   google: any;
+  reportLocation: MutationFn;
 }
 
 class ProfileQuery extends Query<userProfile> {}
@@ -130,12 +136,19 @@ class HomeContainer extends Component<IProps, IState> {
     );
   };
   public handleGeoWatchSuccess = (position: Position) => {
+    const { reportLocation } = this.props;
     const {
       coords: { latitude, longitude }
     } = position;
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
     this.map.panTo(latLng);
+    reportLocation({
+      variables: {
+        lat: latitude,
+        lng: longitude
+      }
+    });
   };
   public handleGeoWatchError = () => {
     console.log("some err");
@@ -239,4 +252,9 @@ class HomeContainer extends Component<IProps, IState> {
   };
 }
 
-export default HomeContainer;
+export default graphql<any, reportMovement, reportMovementVariables>(
+  REPORT_LOCATION,
+  {
+    name: "reportLocation"
+  }
+)(HomeContainer);
