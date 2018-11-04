@@ -40,6 +40,7 @@ class HomeContainer extends Component<IProps, IState> {
   public userMarker: google.maps.Marker;
   public toMarker: google.maps.Marker;
   public directions: google.maps.DirectionsRenderer;
+  public drivers: google.maps.Marker[];
   public state = {
     distance: "",
     duration: "",
@@ -72,38 +73,33 @@ class HomeContainer extends Component<IProps, IState> {
     const { isMenuOpen, toAddress, price } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
-        {({ data, loading }) => {
-          if (data && data.GetMyProfile) {
-            const { GetMyProfile: { user = null } = {} } = ({} = data);
-            if (user) {
-              return (
-                <NearbyQueries
-                  query={GET_NEARBY_DRIVERS}
-                  skip={user.isDriving}
-                  onCompleted={this.handleNearbyDrivers}
-                >
-                  {() => (
-                    <HomePresenter
-                      loading={loading}
-                      isMenuOpen={isMenuOpen}
-                      toggleMenu={this.toggleMenu}
-                      mapRef={this.mapRef}
-                      toAddress={toAddress}
-                      price={price}
-                      data={data}
-                      onInputChange={this.onInputChange}
-                      onAddressSubmit={this.onAddressSubmit}
-                    />
-                  )}
-                </NearbyQueries>
-              );
-            } else {
-              return null;
+        {({ data, loading }) => (
+          <NearbyQueries
+            query={GET_NEARBY_DRIVERS}
+            skip={
+              (data &&
+                data.GetMyProfile &&
+                data.GetMyProfile.user &&
+                data.GetMyProfile.user.isDriving) ||
+              false
             }
-          } else {
-            return "Loading";
-          }
-        }}
+            onCompleted={this.handleNearbyDrivers}
+          >
+            {() => (
+              <HomePresenter
+                loading={loading}
+                isMenuOpen={isMenuOpen}
+                toggleMenu={this.toggleMenu}
+                mapRef={this.mapRef}
+                toAddress={toAddress}
+                price={price}
+                data={data}
+                onInputChange={this.onInputChange}
+                onAddressSubmit={this.onAddressSubmit}
+              />
+            )}
+          </NearbyQueries>
+        )}
       </ProfileQuery>
     );
   }
@@ -172,11 +168,11 @@ class HomeContainer extends Component<IProps, IState> {
       }
     });
   };
-  public handleGeoWatchError = () => {
-    console.log("some err");
+  public handleGeoWatchError = error => {
+    console.log(error);
   };
-  public handleGeoError = () => {
-    console.log("some err");
+  public handleGeoError = error => {
+    console.log(error);
   };
   public onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -278,7 +274,27 @@ class HomeContainer extends Component<IProps, IState> {
         GetNearbyDrivers: { drivers, ok }
       } = data;
       if (ok && drivers) {
-        console.log(drivers);
+        for (const driver of drivers) {
+          if (driver && driver.lastLat && driver.lastLng) {
+            const latLng = new google.maps.LatLng(
+              driver.lastLat,
+              driver.lastLng
+            );
+            const markerOptions: google.maps.MarkerOptions = {
+              icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                scale: 5
+              },
+              position: latLng
+            };
+            const newMarker: google.maps.Marker = new google.maps.Marker(
+              markerOptions
+            );
+            newMarker.set("ID", driver.id);
+            newMarker.setMap(this.map);
+            this.drivers.push(newMarker);
+          }
+        }
       }
     }
   };
