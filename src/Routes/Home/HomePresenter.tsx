@@ -6,6 +6,7 @@ import React, { ChangeEvent, SFC } from "react";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "typed-components";
+import { userProfile } from "types/api";
 
 const MenuButton = styled.button`
   appearance: none;
@@ -53,6 +54,7 @@ interface IProps {
   price: string;
   onAddressSubmit: () => void;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  data?: userProfile;
 }
 
 const Container = styled.div``;
@@ -65,7 +67,8 @@ const HomePresenter: SFC<IProps> = ({
   price,
   toAddress,
   onAddressSubmit,
-  onInputChange
+  onInputChange,
+  data: { GetMyProfile: { user = null } = {} } = {}
 }) => (
   <Container>
     <Helmet>
@@ -84,30 +87,36 @@ const HomePresenter: SFC<IProps> = ({
       }}
     >
       {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-      <AddressBar
-        name={"toAddress"}
-        onChange={onInputChange}
-        value={toAddress}
-        onBlur={null}
-      />
+      {user &&
+        !user.isDriving && (
+          <>
+            <AddressBar
+              name={"toAddress"}
+              onChange={onInputChange}
+              value={toAddress}
+              onBlur={null}
+            />
+            <ExtendedButton
+              onClick={onAddressSubmit}
+              disabled={toAddress === ""}
+              value={price ? "Change Address" : "Pick Address"}
+            />
+          </>
+        )}
       {price && (
-        <ExtendedButton
+        <RequestButton
           onClick={onAddressSubmit}
           disabled={toAddress === ""}
           value={`Request Ride $${price}`}
         />
       )}
-      <RequestButton
-        onClick={onAddressSubmit}
-        disabled={toAddress === ""}
-        value={price ? "Change Address" : "Pick Address"}
-      />
       <Map innerRef={mapRef} />
     </Sidebar>
   </Container>
 );
 
 HomePresenter.propTypes = {
+  data: PropTypes.any.isRequired,
   isMenuOpen: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   mapRef: PropTypes.any.isRequired,
