@@ -71,7 +71,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetNearbyRideResponse",
+                "name": "GetNearbyRidesResponse",
                 "ofType": null
               }
             },
@@ -1422,7 +1422,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetNearbyRideResponse",
+        "name": "GetNearbyRidesResponse",
         "description": "",
         "fields": [
           {

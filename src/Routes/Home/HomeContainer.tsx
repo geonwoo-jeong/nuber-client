@@ -55,6 +55,7 @@ class HomeContainer extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
+    this.drivers = [];
   }
   public componentDidMount() {
     const getCurrentOptions: PositionOptions = {
@@ -76,6 +77,7 @@ class HomeContainer extends Component<IProps, IState> {
         {({ data, loading }) => (
           <NearbyQueries
             query={GET_NEARBY_DRIVERS}
+            pollInterval={1000}
             skip={
               (data &&
                 data.GetMyProfile &&
@@ -269,13 +271,16 @@ class HomeContainer extends Component<IProps, IState> {
     }
   };
   public handleNearbyDrivers = (data: {} | getDrivers) => {
+    console.log(data);
     if ("GetNearbyDrivers" in data) {
       const {
         GetNearbyDrivers: { drivers, ok }
       } = data;
       if (ok && drivers) {
+        console.log(drivers);
         for (const driver of drivers) {
           if (driver && driver.lastLat && driver.lastLng) {
+            console.log(driver);
             const latLng = new google.maps.LatLng(
               driver.lastLat,
               driver.lastLng
@@ -290,9 +295,9 @@ class HomeContainer extends Component<IProps, IState> {
             const newMarker: google.maps.Marker = new google.maps.Marker(
               markerOptions
             );
+            this.drivers.push(newMarker);
             newMarker.set("ID", driver.id);
             newMarker.setMap(this.map);
-            this.drivers.push(newMarker);
           }
         }
       }
