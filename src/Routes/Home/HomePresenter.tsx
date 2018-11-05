@@ -1,8 +1,8 @@
 import AddressBar from "Components/AddressBar";
 import Button from "Components/Button";
 import Menu from "Components/Menu";
-import PropTypes from "prop-types";
 import React, { ChangeEvent, SFC } from "react";
+import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "typed-components";
@@ -51,10 +51,11 @@ interface IProps {
   loading: boolean;
   mapRef: any;
   toAddress: string;
-  price: string;
+  price?: string;
   onAddressSubmit: () => void;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   data?: userProfile;
+  requestRideFn?: MutationFn;
 }
 
 const Container = styled.div``;
@@ -68,7 +69,8 @@ const HomePresenter: SFC<IProps> = ({
   toAddress,
   onAddressSubmit,
   onInputChange,
-  data: { GetMyProfile: { user = null } = {} } = {}
+  data: { GetMyProfile: { user = null } = {} } = {},
+  requestRideFn
 }) => (
   <Container>
     <Helmet>
@@ -105,7 +107,7 @@ const HomePresenter: SFC<IProps> = ({
         )}
       {price && (
         <RequestButton
-          onClick={onAddressSubmit}
+          onClick={requestRideFn}
           disabled={toAddress === ""}
           value={`Request Ride $${price}`}
         />
@@ -114,17 +116,5 @@ const HomePresenter: SFC<IProps> = ({
     </Sidebar>
   </Container>
 );
-
-HomePresenter.propTypes = {
-  data: PropTypes.any.isRequired,
-  isMenuOpen: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  mapRef: PropTypes.any.isRequired,
-  onAddressSubmit: PropTypes.func.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-  price: PropTypes.string.isRequired,
-  toAddress: PropTypes.string.isRequired,
-  toggleMenu: PropTypes.func.isRequired
-};
 
 export default HomePresenter;
