@@ -271,7 +271,6 @@ class HomeContainer extends Component<IProps, IState> {
     }
   };
   public handleNearbyDrivers = (data: {} | getDrivers) => {
-    console.log(data);
     if ("GetNearbyDrivers" in data) {
       const {
         GetNearbyDrivers: { drivers, ok }
@@ -280,24 +279,37 @@ class HomeContainer extends Component<IProps, IState> {
         console.log(drivers);
         for (const driver of drivers) {
           if (driver && driver.lastLat && driver.lastLng) {
-            console.log(driver);
+            const existingDriver:
+              | google.maps.Marker
+              | undefined = this.drivers.find(
+              (driverMarker: google.maps.Marker) => {
+                const markerID = driverMarker.get("ID");
+                return markerID === driver.id;
+              }
+            );
             const latLng = new google.maps.LatLng(
               driver.lastLat,
               driver.lastLng
             );
-            const markerOptions: google.maps.MarkerOptions = {
-              icon: {
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                scale: 5
-              },
-              position: latLng
-            };
-            const newMarker: google.maps.Marker = new google.maps.Marker(
-              markerOptions
-            );
-            this.drivers.push(newMarker);
-            newMarker.set("ID", driver.id);
-            newMarker.setMap(this.map);
+
+            if (existingDriver) {
+              existingDriver.setPosition(latLng);
+              existingDriver.setMap(this.map);
+            } else {
+              const markerOptions: google.maps.MarkerOptions = {
+                icon: {
+                  path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                  scale: 5
+                },
+                position: latLng
+              };
+              const newMarker: google.maps.Marker = new google.maps.Marker(
+                markerOptions
+              );
+              this.drivers.push(newMarker);
+              newMarker.set("ID", driver.id);
+              newMarker.setMap(this.map);
+            }
           }
         }
       }
