@@ -1,6 +1,7 @@
 import AddressBar from "Components/AddressBar";
 import Button from "Components/Button";
 import Menu from "Components/Menu";
+import RidePopUp from "Components/RidePopUp";
 import React, { ChangeEvent, SFC } from "react";
 import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
@@ -56,6 +57,7 @@ interface IProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   data?: userProfile;
   requestRideFn?: MutationFn;
+  acceptRideFn?: MutationFn;
   nearbyRide?: getRides;
 }
 
@@ -71,7 +73,9 @@ const HomePresenter: SFC<IProps> = ({
   onAddressSubmit,
   onInputChange,
   data: { GetMyProfile: { user = null } = {} } = {},
-  requestRideFn
+  requestRideFn,
+  nearbyRide: { GetNearbyRide: { ride = null } = {} } = {},
+  acceptRideFn
 }) => (
   <Container>
     <Helmet>
@@ -111,6 +115,18 @@ const HomePresenter: SFC<IProps> = ({
           onClick={requestRideFn}
           disabled={toAddress === ""}
           value={`Request Ride $${price}`}
+        />
+      )}
+      {ride && (
+        <RidePopUp
+          id={ride.id}
+          pickUpAddress={ride.pickUpAddress}
+          dropOffAddress={ride.dropOffAddress}
+          price={ride.price}
+          distance={ride.distance}
+          passengerName={ride.passenger.fullName!}
+          passengerPhoto={ride.passenger.profilePhoto!}
+          acceptRideFn={acceptRideFn}
         />
       )}
       <Map innerRef={mapRef} />
