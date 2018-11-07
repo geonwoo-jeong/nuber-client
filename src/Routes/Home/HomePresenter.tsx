@@ -6,7 +6,7 @@ import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "typed-components";
-import { userProfile } from "types/api";
+import { getRides, userProfile } from "types/api";
 
 const MenuButton = styled.button`
   appearance: none;
@@ -56,6 +56,7 @@ interface IProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   data?: userProfile;
   requestRideFn?: MutationFn;
+  nearbyRide?: getRides;
 }
 
 const Container = styled.div``;
