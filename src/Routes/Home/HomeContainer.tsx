@@ -116,7 +116,7 @@ class HomeContainer extends Component<IProps, IState> {
             {() => (
               <RequestRideMutation
                 mutation={REQUEST_RIDE}
-                onCompleted={mutationData => this.handelRideRequest}
+                onCompleted={this.handleRideRequest}
                 variables={{
                   distance,
                   dropOffAddress: toAddress,
@@ -134,9 +134,22 @@ class HomeContainer extends Component<IProps, IState> {
                     {({ subscribeToMore, data: nearbyRide }) => {
                       const rideSubscriptionOptions: SubscribeToMoreOptions = {
                         document: SUBSCRIBE_NEARBY_RIDES,
-                        updateQuery: this.handleSubscriptionUpdate
+                        updateQuery: (prev, { subscriptionData }) => {
+                          if (!subscriptionData.data) {
+                            return prev;
+                          }
+                          const newObject = Object.assign({}, prev, {
+                            GetNearbyRide: {
+                              ...prev.GetNearbyRide,
+                              ride: subscriptionData.data.NearbyRideSubscription
+                            }
+                          });
+                          return newObject;
+                        }
                       };
-                      subscribeToMore(rideSubscriptionOptions);
+                      if (isDriving) {
+                        subscribeToMore(rideSubscriptionOptions);
+                      }
                       return (
                         <AcceptRide mutation={ACCEPT_RIDE}>
                           {acceptRideFn => (
@@ -387,7 +400,7 @@ class HomeContainer extends Component<IProps, IState> {
       }
     }
   };
-  public handelRideRequest = (data: requestRide) => {
+  public handleRideRequest = (data: requestRide) => {
     const { RequestRide } = data;
     if (RequestRide.ok) {
       toast.success("Drive requested, finding a driver");
@@ -407,9 +420,6 @@ class HomeContainer extends Component<IProps, IState> {
         });
       }
     }
-  };
-  public handleSubscriptionUpdate = data => {
-    console.log(data);
   };
 }
 
