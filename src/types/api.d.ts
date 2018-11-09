@@ -279,18 +279,21 @@ export interface startPhoneVerificationVariables {
 
 export interface getRide_GetRide_ride_driver {
   __typename: "User";
+  id: number;
   fullName: string | null;
   profilePhoto: string | null;
 }
 
 export interface getRide_GetRide_ride_passenger {
   __typename: "User";
+  id: number;
   fullName: string | null;
   profilePhoto: string | null;
 }
 
 export interface getRide_GetRide_ride {
   __typename: "Ride";
+  id: number;
   status: string;
   pickUpAddress: string;
   dropOffAddress: string;
@@ -315,6 +318,29 @@ export interface getRide {
 
 export interface getRideVariables {
   rideId: number;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateRide
+// ====================================================
+
+export interface updateRide_UpdateRideStatus {
+  __typename: "UpdateRideStatusResponse";
+  ok: boolean;
+  error: string | null;
+  rideId: number | null;
+}
+
+export interface updateRide {
+  UpdateRideStatus: updateRide_UpdateRideStatus;
+}
+
+export interface updateRideVariables {
+  rideId: number;
+  status: StatusOptions;
 }
 
 /* tslint:disable */
@@ -374,6 +400,7 @@ export interface verifyPhoneVariables {
 
 export interface userProfile_GetMyProfile_user {
   __typename: "User";
+  id: number;
   profilePhoto: string | null;
   firstName: string;
   lastName: string;
@@ -425,6 +452,14 @@ export interface getPlaces {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum StatusOptions {
+  ACCEPTED = "ACCEPTED",
+  CANCELED = "CANCELED",
+  FINISHED = "FINISHED",
+  ONROUTE = "ONROUTE",
+  REQUESTING = "REQUESTING",
+}
 
 //==============================================================
 // END Enums and Input Objects
