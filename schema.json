@@ -461,6 +461,22 @@
             "deprecationReason": null
           },
           {
+            "name": "userId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": "",
             "args": [],
@@ -1081,34 +1097,6 @@
             "deprecationReason": null
           },
           {
-            "name": "driverId",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "driver",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "passengerId",
             "description": "",
             "args": [],
@@ -1141,12 +1129,24 @@
             "deprecationReason": null
           },
           {
-            "name": "chat",
+            "name": "driverId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "driver",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Chat",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1159,6 +1159,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chat",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Chat",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2773,7 +2785,7 @@
             "deprecationReason": null
           },
           {
-            "name": "CANCELED",
+            "name": "CANCLED",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
