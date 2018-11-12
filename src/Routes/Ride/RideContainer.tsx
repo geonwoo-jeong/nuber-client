@@ -41,7 +41,20 @@ class RideContainer extends Component<IProps> {
           <RideQuery query={GET_RIDE} variables={{ rideId }}>
             {({ data, loading, subscribeToMore }) => {
               const subscribeOptions: SubscribeToMoreOptions = {
-                document: RIDE_SUBSCRIPTION
+                document: RIDE_SUBSCRIPTION,
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    return prev;
+                  }
+                  const {
+                    data: {
+                      RideStatusSubscription: { status }
+                    }
+                  } = subscriptionData;
+                  if (status === "FINISHED") {
+                    window.location.href = "/";
+                  }
+                }
               };
               subscribeToMore(subscribeOptions);
               return (
