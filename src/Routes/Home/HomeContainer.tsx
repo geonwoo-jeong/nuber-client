@@ -364,7 +364,6 @@ class HomeContainer extends Component<IProps, IState> {
         GetNearbyDrivers: { drivers, ok }
       } = data;
       if (ok && drivers) {
-        console.log(drivers);
         for (const driver of drivers) {
           if (driver && driver.lastLat && driver.lastLng) {
             const existingDriver:

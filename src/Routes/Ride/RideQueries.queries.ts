@@ -34,23 +34,22 @@ export const RIDE_SUBSCRIPTION = gql`
     RideStatusSubscription {
       id
       status
-        pickUpAddress
-        dropOffAddress
-        price
-        distance
-        duration
-        driver {
-          id
-          fullName
-          profilePhoto
-        }
-        passenger {
-          id
-          fullName
-          profilePhoto
-        }
-        chatId
+      pickUpAddress
+      dropOffAddress
+      price
+      distance
+      duration
+      driver {
+        id
+        fullName
+        profilePhoto
       }
+      passenger {
+        id
+        fullName
+        profilePhoto
+      }
+      chatId
     }
   }
 `;

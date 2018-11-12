@@ -86,38 +86,46 @@ const RidePresenter: SFC<IProps> = ({
           <Title>Status</Title>
           <Data>{ride.status}</Data>
           <Buttons>
-            {ride.driver.id === user.id && ride.status === "ACCEPTED" && (
-              <ExtendedButton
-                value={"Picked Up"}
-                onClick={() =>
-                  updateRideFn({
-                    variables: {
-                      rideId: ride.id,
-                      status: "ONROUTE"
-                    }
-                  })
-                }
-              />
+            {ride.driver &&
+              ride.driver.id === user.id &&
+              ride.status === "ACCEPTED" && (
+                <ExtendedButton
+                  value={"Picked Up"}
+                  onClick={() =>
+                    updateRideFn({
+                      variables: {
+                        rideId: ride.id,
+                        status: "ONROUTE"
+                      }
+                    })
+                  }
+                />
+              )}
+            {ride.driver &&
+              ride.driver.id === user.id &&
+              ride.status === "ONROUTE" && (
+                <ExtendedButton
+                  value={"Finished"}
+                  onClick={() =>
+                    updateRideFn({
+                      variables: {
+                        rideId: ride.id,
+                        status: "FINISHED"
+                      }
+                    })
+                  }
+                />
+              )}
+            {ride.driver &&
+              ride.driver.id === user.id &&
+              ride.status === "" && (
+                <ExtendedButton value={"Finished"} onClick={() => null} />
+              )}
+            {ride.status !== "REQUESTING" && (
+              <Link to={`/chat/${ride.chatId}`}>
+                <ExtendedButton value={"Chat"} onClick={null} />
+              </Link>
             )}
-            {ride.driver.id === user.id && ride.status === "ONROUTE" && (
-              <ExtendedButton
-                value={"Finished"}
-                onClick={() =>
-                  updateRideFn({
-                    variables: {
-                      rideId: ride.id,
-                      status: "FINISHED"
-                    }
-                  })
-                }
-              />
-            )}
-            {ride.driver.id === user.id ||
-              (ride.passenger.id === user.id && ride.status === "ACCEPTED" && (
-                <Link to={`/chat/${ride.chatId}`}>
-                  <ExtendedButton value={"Chat"} onClick={null} />
-                </Link>
-              ))}
           </Buttons>
         </>
       )}

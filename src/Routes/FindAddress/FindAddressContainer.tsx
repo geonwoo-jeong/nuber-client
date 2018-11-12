@@ -126,7 +126,6 @@ class FindAddressContainer extends Component<IProps, IState> {
         lng
       }
     });
-    console.log(lat, lng);
   };
 }
 

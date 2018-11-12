@@ -94,22 +94,21 @@ const HomePresenter: SFC<IProps> = ({
       }}
     >
       {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-      {user &&
-        !user.isDriving && (
-          <>
-            <AddressBar
-              name={"toAddress"}
-              onChange={onInputChange}
-              value={toAddress}
-              onBlur={null}
-            />
-            <ExtendedButton
-              onClick={onAddressSubmit}
-              disabled={toAddress === ""}
-              value={price ? "Change Address" : "Pick Address"}
-            />
-          </>
-        )}
+      {user && !user.isDriving && (
+        <>
+          <AddressBar
+            name={"toAddress"}
+            onChange={onInputChange}
+            value={toAddress}
+            onBlur={null}
+          />
+          <ExtendedButton
+            onClick={onAddressSubmit}
+            disabled={toAddress === ""}
+            value={price ? "Change Address" : "Pick Address"}
+          />
+        </>
+      )}
       {price && (
         <RequestButton
           onClick={requestRideFn}
