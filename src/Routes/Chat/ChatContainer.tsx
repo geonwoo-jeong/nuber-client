@@ -1,3 +1,4 @@
+import { SubscribeToMoreOptions } from "apollo-boost";
 import React, { ChangeEventHandler, Component } from "react";
 import { Mutation, MutationFn, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router-dom";
@@ -10,7 +11,11 @@ import {
   userProfile
 } from "types/api";
 import ChatPresenter from "./ChatPresenter";
-import { GET_CHAT, SEND_MESSAGE } from "./ChatQueries.queries";
+import {
+  GET_CHAT,
+  SEND_MESSAGE,
+  SUBSCRIBE_TO_MESSAGES
+} from "./ChatQueries.queries";
 
 interface IProps extends RouteComponentProps<any> {}
 interface IState {
@@ -42,23 +47,47 @@ class ChatContainer extends Component<IProps, IState> {
       <ProfileQuery query={USER_PROFILE}>
         {({ data: userData }) => (
           <ChatQuery query={GET_CHAT} variables={{ chatId }}>
-            {({ data, loading }) => (
-              <SendMessageMutation mutation={SEND_MESSAGE}>
-                {sendMessageFn => {
-                  this.sendMessageFn = sendMessageFn;
-                  return (
-                    <ChatPresenter
-                      data={data}
-                      loading={loading}
-                      userData={userData}
-                      messageText={message}
-                      onInputChange={this.onInputChange}
-                      onSubmit={this.onSubmit}
-                    />
-                  );
-                }}
-              </SendMessageMutation>
-            )}
+            {({ data, loading, subscribeToMore }) => {
+              const subscribeToMoreOptions: SubscribeToMoreOptions = {
+                document: SUBSCRIBE_TO_MESSAGES,
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    return prev;
+                  }
+                  const newObject = Object.assign({}, prev, {
+                    GetChat: {
+                      ...prev.GetChat,
+                      chat: {
+                        ...prev.GetChat.chat,
+                        messages: [
+                          ...prev.GetChat.chat.messages,
+                          subscriptionData.data.MessageSubscription
+                        ]
+                      }
+                    }
+                  });
+                  return newObject;
+                }
+              };
+              subscribeToMore(subscribeToMoreOptions);
+              return (
+                <SendMessageMutation mutation={SEND_MESSAGE}>
+                  {sendMessageFn => {
+                    this.sendMessageFn = sendMessageFn;
+                    return (
+                      <ChatPresenter
+                        data={data}
+                        loading={loading}
+                        userData={userData}
+                        messageText={message}
+                        onInputChange={this.onInputChange}
+                        onSubmit={this.onSubmit}
+                      />
+                    );
+                  }}
+                </SendMessageMutation>
+              );
+            }}
           </ChatQuery>
         )}
       </ProfileQuery>
