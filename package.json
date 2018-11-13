@@ -72,11 +72,14 @@
     "codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/**/*.queries.ts --addTypename --schema schema.json --target typescript --outputFlat",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/dotenv": "^4.0.3",
+    "@types/gh-pages": "^2.0.0",
     "@types/googlemaps": "^3.30.16",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.5.7",
@@ -85,6 +88,7 @@
     "@types/react-facebook-login": "^3.6.5",
     "@types/react-helmet": "^5.0.7",
     "@types/react-sidebar": "^3.0.0",
+    "gh-pages": "^2.0.1",
     "types": "^0.1.1",
     "typescript": "^3.0.1"
   },
@@ -92,5 +96,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "homepage": "https://geonwoo-jeong.github.io/nuber-client/"
 }
