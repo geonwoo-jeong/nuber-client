@@ -2785,7 +2785,7 @@
             "deprecationReason": null
           },
           {
-            "name": "CANCLED",
+            "name": "CANCELED",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null

@@ -26,7 +26,7 @@ const AppPresenter: SFC<IProps> = ({ isLoggedIn }) => (
 
 const LoggedOutRoutes: SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={Login} />
+    <Route path={"/nuber-client"} exact={true} component={Login} />
     <Route path={"/phone-login"} component={PhoneLogin} />
     <Route path={"/verify-phone"} component={VerifyPhone} />
     <Route path={"/social-login"} component={SocialLogin} />
@@ -35,7 +35,7 @@ const LoggedOutRoutes: SFC = () => (
 );
 const LoggedInRoutes: SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={Home} />
+    <Route path={"/nuber-client"} exact={true} component={Home} />
     <Route path={"/ride/:rideId"} exact={true} component={Ride} />
     <Route path={"/chat/:chatId"} exact={true} component={Chat} />
     <Route path={"/edit-account"} exact={true} component={EditAccount} />

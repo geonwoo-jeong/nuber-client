@@ -43,7 +43,7 @@ const wsLink = new WebSocketLink({
   },
   uri: isDev
     ? "ws://localhost:4000/subscriptions"
-    : "ws://nuber.now.sh/subscriptions"
+    : "wss://nuber.now.sh/subscriptions"
 });
 
 const combinedLinks = split(
